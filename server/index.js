@@ -5,6 +5,10 @@ const { db } = require('./db');
 app.use(express.json());
 const port = process.env.PORT 
 
+//add cors
+const cors = require('cors');
+app.use(cors());
+
 const { userRouter } = require('./routes/userRoutes');
 const { blogRouter } = require('./routes/blogRoutes');
 
