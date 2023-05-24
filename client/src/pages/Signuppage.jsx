@@ -7,8 +7,8 @@ import {
   Textarea,
   Button,
 } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
-import CustomAlert from "../components/Alert";
+import { useEffect, useState } from "react";
+import CustomAlert from "../components/Customalert";
 
 export default function Signuppage() {
   const [penName, setPenName] = useState("");
