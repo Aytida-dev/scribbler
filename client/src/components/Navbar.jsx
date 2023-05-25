@@ -24,10 +24,24 @@ import {
   MoonIcon,
   SunIcon,
 } from "@chakra-ui/icons";
+import { useEffect, useState } from "react";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
+
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setLoggedIn(false);
+  }
 
   return (
     <Box>
@@ -56,8 +70,12 @@ export default function WithSubnavigation() {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
-        
-        <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }} alignItems={"center"}>
+
+        <Flex
+          flex={{ base: 1 }}
+          justify={{ base: "center", md: "start" }}
+          alignItems={"center"}
+        >
           <Text
             as={"a"}
             href={"/"}
@@ -87,29 +105,47 @@ export default function WithSubnavigation() {
           >
             {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
           </Button>
-          <Button
-            as={"a"}
-            fontSize={"sm"}
-            fontWeight={400}
-            variant={"link"}
-            href={"/login"}
-          >
-            Sign In
-          </Button>
-          <Button
-            as={"a"}
+          {loggedIn ? (
+            <Button
+            onClick={() => handleLogout()}
             display={{ base: "none", md: "inline-flex" }}
             fontSize={"sm"}
             fontWeight={600}
             color={"white"}
             bg={"pink.400"}
-            href={"/signup"}
             _hover={{
               bg: "pink.300",
             }}
           >
-            Sign Up
+            Logout
           </Button>
+          ) : (
+            <Flex justifyContent={'space-between'} gap={6} margin={0}>
+              <Button
+                as={"a"}
+                fontSize={"sm"}
+                fontWeight={400}
+                variant={"link"}
+                href={"/login"}
+              >
+                Sign In
+              </Button>
+              <Button
+                as={"a"}
+                display={{ base: "none", md: "inline-flex" }}
+                fontSize={"sm"}
+                fontWeight={600}
+                color={"white"}
+                bg={"pink.400"}
+                href={"/signup"}
+                _hover={{
+                  bg: "pink.300",
+                }}
+              >
+                Sign Up
+              </Button>
+            </Flex>
+          )}
         </Stack>
       </Flex>
 
@@ -271,7 +307,6 @@ const MobileNavItem = ({ label, children, href }) => {
 };
 
 const NAV_ITEMS = [
-  
   {
     label: "My Blogs",
     href: "/myblogs",

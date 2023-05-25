@@ -40,6 +40,8 @@ export default function Loginpage() {
       body: JSON.stringify(data),
     });
     const result = await response.json();
+    const token = result.token;
+    localStorage.setItem("token", token);
     if (result.message === "login successful") {
       setShowAlert({ status: "success" });
     }
