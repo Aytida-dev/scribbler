@@ -5,6 +5,7 @@ const { userModel } = require("../model/userModel");
 const userRouter = express.Router();
 
 const jwt = require("jsonwebtoken");
+const { auth } = require("../middlewares/auth");
 
 
 userRouter.get("/", (req, res) => {
@@ -60,6 +61,20 @@ userRouter.post("/login", async (req, res) => {
     });
   }
 });
+
+userRouter.get("/me", auth, async (req, res) => {
+  try {
+    res.send({
+      message: "user fetched",
+      user: req.user,
+    });
+  }
+  catch (err) {
+    res.status(400).send({
+      message: err.message,
+    });
+  }
+})
 
 module.exports = { userRouter };
 

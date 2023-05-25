@@ -1,13 +1,14 @@
 import {
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Flex,
   Heading,
+  Skeleton,
   Text,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { useParams } from "react-router-dom";
 
 export default function Blogspage() {
@@ -43,20 +44,23 @@ export default function Blogspage() {
   const newDate = `${day}-${month}-${year} (${dayOfWeek})`;
 
   return (
-    <Card>
-      <CardHeader>
-        <Flex gap={"10px"} direction={"column"} alignItems={"center"}>
-          <Heading size="md">{blog.title}</Heading>
-        </Flex>
-        <Flex justifyContent={"end"} gap={"10px"}>
-          <Text py="2" opacity={'50%'}>
-            by : {blog.createdBy} || {newDate}
-          </Text>
-        </Flex>
-      </CardHeader>
-      <CardBody>
-        <Text py="2">{blog.content}</Text>
-      </CardBody>
-    </Card>
+    <Skeleton isLoaded={blog.title} >
+      <Card>
+        <CardHeader>
+          <Flex gap={"10px"} direction={"column"} alignItems={"center"}>
+            <Heading size="xl">{blog.title}</Heading>
+          </Flex>
+          <Flex justifyContent={"end"} gap={"10px"}>
+            <Text py="2" opacity={"50%"}>
+              by : {blog.createdBy} || {newDate}
+            </Text>
+          </Flex>
+        </CardHeader>
+        <hr></hr>
+        <CardBody marginLeft={"5%"}>
+          <ReactMarkdown>{blog.content}</ReactMarkdown>
+        </CardBody>
+      </Card>
+    </Skeleton>
   );
 }
