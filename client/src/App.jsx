@@ -5,9 +5,11 @@ import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <Box >
-      <Navbar />
-      <Box className="App">
+    <Box>
+      <Box position="fixed" top={0} width="100%" zIndex="999">
+        <Navbar />
+      </Box>
+      <Box className="App" paddingTop="60px">
         <AllRoutes />
       </Box>
     </Box>
