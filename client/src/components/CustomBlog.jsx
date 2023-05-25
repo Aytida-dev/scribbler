@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-export default function CustomBlog({ title, summary, author, date }) {
+export default function CustomBlog({ title, summary, author, date ,id}) {
   const changeDate = new Date(date);
   const year = changeDate.getFullYear();
   const month = changeDate.getMonth() + 1;
@@ -44,12 +44,12 @@ export default function CustomBlog({ title, summary, author, date }) {
 
         <CardFooter>
           <Flex alignItems={"start"} direction={"column"} gap={"10px"}>
-            <Link to={`/blog/${title}`}>
+            <Link to={`/${id}/${title}`}>
               <Button variant="solid" colorScheme="blue">
                 Read more
               </Button>
             </Link>
-            <Text py="2">
+            <Text py="2" opacity={'50%'}>
               by : {author} at: {newDate}
             </Text>
           </Flex>

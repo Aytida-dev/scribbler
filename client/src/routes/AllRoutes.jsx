@@ -14,7 +14,7 @@ export default function AllRoutes() {
       <Route path="/myblogs" element={<Myblogspage />} />
       <Route path="/login" element={<Loginpage />} />
       <Route path="/signup" element={<Signuppage />} />
-      <Route path="/blog/:title" element={<Blogspage />} />
+      <Route path="/:id/:title" element={<Blogspage />} />
     </Routes>
   );
 }
