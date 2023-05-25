@@ -1,10 +1,8 @@
 import {
   FormControl,
   FormLabel,
-  FormErrorMessage,
   Input,
   Flex,
-  Textarea,
   Button,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
