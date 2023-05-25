@@ -8,16 +8,16 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 export default function CustomBlog({ title, summary, author, date }) {
-  // change date from 2023-05-24T06:50:05.412Z to 2023-05-24 and day of week
   const changeDate = new Date(date);
   const year = changeDate.getFullYear();
   const month = changeDate.getMonth() + 1;
   const day = changeDate.getDate();
-  //get day of week
+
   const dayOfWeeknumber = changeDate.getDay();
-  //change numbers to monday, tuesday, etc
+
   const days = [
     "Sunday",
     "Monday",
@@ -35,18 +35,20 @@ export default function CustomBlog({ title, summary, author, date }) {
       overflow="hidden"
       variant="outline"
     >
-      <Flex direction={'column'} width={'100%'}>
+      <Flex direction={"column"} width={"100%"}>
         <CardBody>
           <Heading size="md">{title}</Heading>
 
           <Text py="2">{summary}</Text>
         </CardBody>
 
-        <CardFooter >
-          <Flex alignItems={'start'} direction={'column'} gap={'10px'}>
-            <Button variant="solid" colorScheme="blue">
-              Read more
-            </Button>
+        <CardFooter>
+          <Flex alignItems={"start"} direction={"column"} gap={"10px"}>
+            <Link to={`/blog/${title}`}>
+              <Button variant="solid" colorScheme="blue">
+                Read more
+              </Button>
+            </Link>
             <Text py="2">
               by : {author} at: {newDate}
             </Text>

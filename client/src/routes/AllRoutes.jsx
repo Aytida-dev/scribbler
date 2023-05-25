@@ -1,3 +1,4 @@
+import Blogspage from "../pages/Blogspage";
 import Createblogpage from "../pages/Createblogpage";
 import Homepage from "../pages/Homepage";
 import Loginpage from "../pages/Loginpage";
@@ -13,6 +14,7 @@ export default function AllRoutes() {
       <Route path="/myblogs" element={<Myblogspage />} />
       <Route path="/login" element={<Loginpage />} />
       <Route path="/signup" element={<Signuppage />} />
+      <Route path="/blog/:title" element={<Blogspage />} />
     </Routes>
   );
 }
