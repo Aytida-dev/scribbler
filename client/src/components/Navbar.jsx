@@ -1,29 +1,29 @@
 import {
-  Box,
-  Flex,
-  Text,
-  IconButton,
-  Button,
-  Stack,
-  Collapse,
-  Icon,
-  Link,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  useColorModeValue,
-  useBreakpointValue,
-  useDisclosure,
-  useColorMode,
-} from "@chakra-ui/react";
-import {
-  HamburgerIcon,
-  CloseIcon,
   ChevronDownIcon,
   ChevronRightIcon,
+  CloseIcon,
+  HamburgerIcon,
   MoonIcon,
   SunIcon,
 } from "@chakra-ui/icons";
+import {
+  Box,
+  Button,
+  Collapse,
+  Flex,
+  Icon,
+  IconButton,
+  Link,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Stack,
+  Text,
+  useBreakpointValue,
+  useColorMode,
+  useColorModeValue,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 export default function WithSubnavigation() {
@@ -41,7 +41,8 @@ export default function WithSubnavigation() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setLoggedIn(false);
-  }
+    window.location.href = "/";
+  };
 
   return (
     <Box>
@@ -87,7 +88,7 @@ export default function WithSubnavigation() {
           </Text>
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
-            <DesktopNav />
+            <DesktopNav loggedIn={loggedIn} />
           </Flex>
         </Flex>
 
@@ -107,20 +108,20 @@ export default function WithSubnavigation() {
           </Button>
           {loggedIn ? (
             <Button
-            onClick={() => handleLogout()}
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"pink.400"}
-            _hover={{
-              bg: "pink.300",
-            }}
-          >
-            Logout
-          </Button>
+              onClick={() => handleLogout()}
+              display={{ base: "none", md: "inline-flex" }}
+              fontSize={"sm"}
+              fontWeight={600}
+              color={"white"}
+              bg={"pink.400"}
+              _hover={{
+                bg: "pink.300",
+              }}
+            >
+              Logout
+            </Button>
           ) : (
-            <Flex justifyContent={'space-between'} gap={6} margin={0}>
+            <Flex justifyContent={"space-between"} gap={6} margin={0}>
               <Button
                 as={"a"}
                 fontSize={"sm"}
@@ -156,7 +157,7 @@ export default function WithSubnavigation() {
   );
 }
 
-const DesktopNav = () => {
+const DesktopNav = ({ loggedIn }) => {
   const linkColor = useColorModeValue("gray.600", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
@@ -167,37 +168,22 @@ const DesktopNav = () => {
         <Box key={navItem.label}>
           <Popover trigger={"hover"} placement={"bottom-start"}>
             <PopoverTrigger>
-              <Link
+              <Button
+                bg={useColorModeValue("white", "gray.800")}
                 p={2}
                 href={navItem.href ?? "#"}
                 fontSize={"sm"}
                 fontWeight={500}
                 color={linkColor}
+                isDisabled={!loggedIn}
                 _hover={{
                   textDecoration: "none",
                   color: linkHoverColor,
                 }}
               >
                 {navItem.label}
-              </Link>
+              </Button>
             </PopoverTrigger>
-
-            {navItem.children && (
-              <PopoverContent
-                border={0}
-                boxShadow={"xl"}
-                bg={popoverContentBgColor}
-                p={4}
-                rounded={"xl"}
-                minW={"sm"}
-              >
-                {/* <Stack>
-                    {navItem.children.map((child) => (
-                      <DesktopSubNav key={child.label} {...child} />
-                    ))}
-                  </Stack> */}
-              </PopoverContent>
-            )}
           </Popover>
         </Box>
       ))}
