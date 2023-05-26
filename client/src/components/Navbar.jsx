@@ -166,25 +166,22 @@ const DesktopNav = ({ loggedIn }) => {
     <Stack direction={"row"} spacing={4}>
       {NAV_ITEMS.map((navItem) => (
         <Box key={navItem.label}>
-          <Popover trigger={"hover"} placement={"bottom-start"}>
-            <PopoverTrigger>
-              <Button
-                bg={useColorModeValue("white", "gray.800")}
-                p={2}
-                href={navItem.href ?? "#"}
-                fontSize={"sm"}
-                fontWeight={500}
-                color={linkColor}
-                isDisabled={!loggedIn}
-                _hover={{
-                  textDecoration: "none",
-                  color: linkHoverColor,
-                }}
-              >
-                {navItem.label}
-              </Button>
-            </PopoverTrigger>
-          </Popover>
+          <Button
+            as={"a"}
+            bg={useColorModeValue("white", "gray.800")}
+            p={2}
+            href={navItem.href ?? "#"}
+            fontSize={"sm"}
+            fontWeight={500}
+            color={linkColor}
+            isDisabled={!loggedIn}
+            _hover={{
+              textDecoration: "none",
+              color: linkHoverColor,
+            }}
+          >
+            {navItem.label}
+          </Button>
         </Box>
       ))}
     </Stack>
