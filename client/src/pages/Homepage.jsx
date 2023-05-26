@@ -1,5 +1,5 @@
 
-import { Box } from "@chakra-ui/react";
+import { Skeleton } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import CustomBlog from "../components/CustomBlog";
 
@@ -15,10 +15,10 @@ export default function Homepage() {
     init();
   }, []);
   return (
-    <Box>
+    <Skeleton isLoaded={blogs.length>0}>
       {blogs && blogs.map((blog) => (
         <CustomBlog title = {blog.title} summary={blog.summary} author={blog.createdBy} date={blog.createdAt} key={blog._id} id={blog._id}/>
       ))}
-    </Box>
+    </Skeleton>
   );
 }

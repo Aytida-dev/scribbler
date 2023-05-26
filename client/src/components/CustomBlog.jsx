@@ -5,12 +5,18 @@ import {
   CardFooter,
   Flex,
   Heading,
-  Stack,
   Text,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-export default function CustomBlog({ title, summary, author, date ,id}) {
+export default function CustomBlog({
+  title,
+  summary,
+  author,
+  date,
+  id,
+  canEdit,
+}) {
   const changeDate = new Date(date);
   const year = changeDate.getFullYear();
   const month = changeDate.getMonth() + 1;
@@ -49,7 +55,14 @@ export default function CustomBlog({ title, summary, author, date ,id}) {
                 Read more
               </Button>
             </Link>
-            <Text py="2" opacity={'50%'}>
+            {canEdit && (
+              <Link to={`/edit/${id}`}>
+                <Button variant="solid" colorScheme="blue">
+                  Edit Blog
+                </Button>
+              </Link>
+            )}
+            <Text py="2" opacity={"50%"}>
               by : {author} at: {newDate}
             </Text>
           </Flex>
