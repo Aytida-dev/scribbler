@@ -59,19 +59,22 @@ export default function Createblogpage() {
   }, []);
 
   const handlePublish = async () => {
-    const response = await fetch(`http://localhost:4000/blog/createBlog`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({
-        title,
-        summary,
-        content,
-        createdBy,
-      }),
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/blog/createBlog`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          title,
+          summary,
+          content,
+          createdBy,
+        }),
+      }
+    );
     const data = await response.json();
     console.log(data);
     if (data.message === "blog created") {
@@ -142,6 +145,7 @@ export default function Createblogpage() {
                 type="text"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
+                placeholder="Write your blog here"
               />
             </FormControl>
             <FormControl>

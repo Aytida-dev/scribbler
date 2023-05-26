@@ -4,7 +4,7 @@ export default function PrivateRoute() {
   let loggedIn = false;
 
   async function check() {
-    const response = await fetch("http://localhost:4000/user/me", {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/user/me`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

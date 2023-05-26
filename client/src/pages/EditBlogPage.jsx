@@ -26,7 +26,7 @@ export default function EditBlogPage() {
 
   useEffect(() => {
     async function initMe() {
-      const res = await fetch("http://localhost:4000/user/me", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/me`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -37,7 +37,9 @@ export default function EditBlogPage() {
     }
 
     async function initBlog() {
-      const res = await fetch(`http://localhost:4000/blog/getblog/${id}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/blog/getblog/${id}`
+      );
       const data = await res.json();
       setTitle(data.blog.title);
       setSummary(data.blog.summary);

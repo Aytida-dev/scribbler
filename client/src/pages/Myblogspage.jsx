@@ -6,11 +6,14 @@ export default function Myblogspage() {
   const [blogs, setBlogs] = useState([]);
   useEffect(() => {
     async function init() {
-      const res = await fetch("http://localhost:4000/blog/getBlogsByUser", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/blog/getBlogsByUser`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const data = await res.json();
       console.log(data);
       setBlogs(data.blogs.reverse());

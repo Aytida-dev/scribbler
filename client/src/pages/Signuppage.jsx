@@ -1,11 +1,11 @@
 import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  Input,
-  Flex,
-  Textarea,
   Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  Textarea,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import CustomAlert from "../components/Customalert";
@@ -46,18 +46,20 @@ export default function Signuppage() {
       confirmPassword,
       bio: bio || "Oops i forgot to write my bio",
     };
-    const response = await fetch("http://localhost:4000/user/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/user/signup`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
     const result = await response.json();
     console.log(result);
     if (result.message === "user signed up") {
       setShowAlert({ status: "success" });
-
     }
     if (result.message === "User already exists") {
       setShowAlert({ status: "warning" });
@@ -69,9 +71,9 @@ export default function Signuppage() {
 
   useEffect(() => {
     setTimeout(() => {
-    setShowAlert({ status: "" });
-    },4000) // Hide the alert initially
-  
+      setShowAlert({ status: "" });
+    }, 4000); // Hide the alert initially
+
     if (showAlert.status === "success") {
       setTimeout(() => {
         setShowAlert({ status: "" }); // Hide the alert after 4 seconds
@@ -79,9 +81,7 @@ export default function Signuppage() {
       }, 3000);
     }
   }, [showAlert.status]);
-  
 
-  
   return (
     <Flex
       justifyContent={"center"}

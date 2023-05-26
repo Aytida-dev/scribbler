@@ -10,7 +10,9 @@ export default function Blogspage() {
 
   useEffect(() => {
     async function init() {
-      const res = await fetch(`http://localhost:4000/blog/getblog/${id}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/blog/getblog/${id}`
+      );
       const data = await res.json();
       setBlog(data.blog);
     }

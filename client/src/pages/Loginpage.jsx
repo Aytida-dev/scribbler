@@ -1,10 +1,4 @@
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  Flex,
-  Button,
-} from "@chakra-ui/react";
+import { Button, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import CustomAlert from "../components/Customalert";
 
@@ -32,7 +26,7 @@ export default function Loginpage() {
       email,
       password,
     };
-    const response = await fetch("http://localhost:4000/user/login", {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/user/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,12 +53,12 @@ export default function Loginpage() {
   useEffect(() => {
     setTimeout(() => {
       setShowAlert({ status: "" });
-    }, 4000); 
+    }, 4000);
 
     if (showAlert.status === "success") {
       setTimeout(() => {
-        setShowAlert({ status: "" }); 
-        window.location.href = "/"; 
+        setShowAlert({ status: "" });
+        window.location.href = "/";
       }, 3000);
     }
   }, [showAlert.status]);
@@ -120,6 +114,10 @@ export default function Loginpage() {
 
       <Button onClick={() => handleOnSubmit()} isDisabled={!allCorrect}>
         Login
+      </Button>
+
+      <Button href={"/signup"} variant={"ghost"} as={"a"}>
+        New user ? Register Here
       </Button>
     </Flex>
   );
