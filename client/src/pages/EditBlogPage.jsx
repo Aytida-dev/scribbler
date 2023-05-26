@@ -18,6 +18,7 @@ export default function EditBlogPage() {
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
   const [username, setUsername] = useState("");
+  const [createdAt, setCreatedAt] = useState("");
 
   useEffect(() => {
     async function initMe() {
@@ -39,31 +40,33 @@ export default function EditBlogPage() {
       setContent(data.blog.content);
     }
 
+    const changeDate = new Date();
+    console.log(changeDate);
+    const year = changeDate.getFullYear();
+    const month = changeDate.getMonth() + 1;
+    const day = changeDate.getDate();
+
+    const dayOfWeeknumber = changeDate.getDay();
+
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const dayOfWeek = days[dayOfWeeknumber];
+    const newDate = `${day}-${month}-${year} (${dayOfWeek})`;
+    setCreatedAt(newDate);
+
     async function init() {
       await initMe();
       await initBlog();
     }
     init();
   }, []);
-
-  const changeDate = new Date();
-  const year = changeDate.getFullYear();
-  const month = changeDate.getMonth() + 1;
-  const day = changeDate.getDate();
-
-  const dayOfWeeknumber = changeDate.getDay();
-
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  const dayOfWeek = days[dayOfWeeknumber];
-  const newDate = `${day}-${month}-${year} (${dayOfWeek})`;
 
   return (
     <Flex flexWrap="wrap">
@@ -108,7 +111,7 @@ export default function EditBlogPage() {
           title={title}
           content={content}
           createdBy={username}
-          createdAt={newDate}
+          newDate={createdAt}
         />
       </Box>
     </Flex>
