@@ -7,13 +7,20 @@ import {
   SunIcon,
 } from "@chakra-ui/icons";
 import {
+  Avatar,
   Box,
   Button,
+  Center,
   Collapse,
   Flex,
   Icon,
   IconButton,
   Link,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -107,19 +114,52 @@ export default function WithSubnavigation() {
             {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
           </Button>
           {loggedIn ? (
-            <Button
-              onClick={() => handleLogout()}
-              display={{ base: "none", md: "inline-flex" }}
-              fontSize={"sm"}
-              fontWeight={600}
-              color={"white"}
-              bg={"pink.400"}
-              _hover={{
-                bg: "pink.300",
-              }}
-            >
-              Logout
-            </Button>
+            <Menu>
+              <MenuButton
+                as={Button}
+                rounded={"full"}
+                variant={"link"}
+                cursor={"pointer"}
+                minW={0}
+              >
+                <Avatar
+                  size={"sm"}
+                  src={"https://avatars.dicebear.com/api/male/username.svg"}
+                />
+              </MenuButton>
+              <MenuList alignItems={"center"}>
+                <br />
+                <Center>
+                  <Avatar
+                    size={"2xl"}
+                    src={"https://avatars.dicebear.com/api/male/username.svg"}
+                  />
+                </Center>
+                <br />
+                <Center>
+                  <p>Username</p>
+                </Center>
+                <br />
+                <MenuDivider />
+
+                <MenuItem>My profile</MenuItem>
+                <MenuItem>
+                  <Button
+                    onClick={() => handleLogout()}
+                    display={{ base: "none", md: "inline-flex" }}
+                    fontSize={"sm"}
+                    fontWeight={600}
+                    color={"white"}
+                    bg={"pink.400"}
+                    _hover={{
+                      bg: "pink.300",
+                    }}
+                  >
+                    Logout
+                  </Button>
+                </MenuItem>
+              </MenuList>
+            </Menu>
           ) : (
             <Flex justifyContent={"space-between"} gap={6} margin={0}>
               <Button

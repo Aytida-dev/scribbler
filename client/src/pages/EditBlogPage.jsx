@@ -6,8 +6,18 @@ import {
   FormHelperText,
   FormLabel,
   Input,
+  ListItem,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Skeleton,
   Textarea,
+  UnorderedList,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -16,6 +26,8 @@ import CustomAlert from "../components/Customalert";
 
 export default function EditBlogPage() {
   const { id } = useParams();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
@@ -129,6 +141,51 @@ export default function EditBlogPage() {
         />
       )}
       <Flex flexWrap="wrap">
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Markdown Tips</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <UnorderedList spacing={5}>
+                <ListItem>
+                  Headers: Use hash symbols (#) to create headers. The number of
+                  hash symbols indicates the header level.
+                </ListItem>
+                <ListItem>
+                  Emphasis: Use asterisks (*) or underscores (_) to add emphasis
+                  to text. Single asterisks or underscores create italic text,
+                  while double asterisks or underscores create bold text
+                </ListItem>
+                <ListItem>
+                  Links: Enclose the link text in square brackets ([]) and the
+                  URL in parentheses (()).{" "}
+                </ListItem>
+                <ListItem>
+                  Images: Use an exclamation mark (!), followed by the
+                  alternative text in square brackets ([]), and the image URL in
+                  parentheses (()).
+                </ListItem>
+                <ListItem>
+                  Lists: Create unordered lists using hyphens (-), plus signs
+                  (+), or asterisks (*). For ordered lists, use numbers followed
+                  by periods (1., 2., etc.)
+                </ListItem>
+                <ListItem>
+                  Code: Use backticks (`) to denote inline code snippets, and
+                  triple backticks for code blocks. For code blocks, you can
+                  also specify the language for syntax highlighting
+                </ListItem>
+              </UnorderedList>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} onClick={onClose}>
+                Close
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
         <Box width={{ base: "100%", md: "50%" }} p={2}>
           <Flex direction="column" alignItems="center" gap={"8vh"}>
             <FormControl isRequired>
@@ -153,9 +210,14 @@ export default function EditBlogPage() {
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Content</FormLabel>
-              <FormHelperText>
-                The content is written in markdown language
-              </FormHelperText>
+              {
+                <Button onClick={onOpen} variant={"ghost"}>
+                  <FormHelperText>
+                    The content is written in markdown language ,
+                  </FormHelperText>
+                </Button>
+              }
+
               <Textarea
                 type="text"
                 value={content}
