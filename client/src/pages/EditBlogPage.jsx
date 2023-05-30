@@ -131,7 +131,7 @@ export default function EditBlogPage() {
       <Flex flexWrap="wrap">
         <Box width={{ base: "100%", md: "50%" }} p={2}>
           <Flex direction="column" alignItems="center" gap={"8vh"}>
-            <FormControl>
+            <FormControl isRequired>
               <FormLabel>Title</FormLabel>
               <Input
                 type="text"
@@ -140,7 +140,7 @@ export default function EditBlogPage() {
               />
               <FormHelperText>This will the Heading of the blog</FormHelperText>
             </FormControl>
-            <FormControl>
+            <FormControl isRequired>
               <FormLabel>Summary</FormLabel>
               <Input
                 type="text"
@@ -151,7 +151,7 @@ export default function EditBlogPage() {
                 Write a small but catchy subject for your blog
               </FormHelperText>
             </FormControl>
-            <FormControl>
+            <FormControl isRequired>
               <FormLabel>Content</FormLabel>
               <FormHelperText>
                 The content is written in markdown language
@@ -175,6 +175,7 @@ export default function EditBlogPage() {
                   colorScheme="teal"
                   variant="solid"
                   onClick={() => handleUpdate()}
+                  isDisabled={title === "" || summary === "" || content === ""}
                 >
                   Update
                 </Button>

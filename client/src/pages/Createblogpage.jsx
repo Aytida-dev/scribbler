@@ -25,7 +25,7 @@ export default function Createblogpage() {
 
   useEffect(() => {
     async function initMe() {
-      const res = await fetch("http://localhost:4000/user/me", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/me`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -116,7 +116,7 @@ export default function Createblogpage() {
       <Flex flexWrap="wrap">
         <Box width={{ base: "100%", md: "50%" }} p={2}>
           <Flex direction="column" alignItems="center" gap={"8vh"}>
-            <FormControl>
+            <FormControl isRequired>
               <FormLabel>Title</FormLabel>
               <Input
                 type="text"
@@ -125,7 +125,7 @@ export default function Createblogpage() {
               />
               <FormHelperText>This will the Heading of the blog</FormHelperText>
             </FormControl>
-            <FormControl>
+            <FormControl isRequired>
               <FormLabel>Summary</FormLabel>
               <Input
                 type="text"
@@ -136,7 +136,7 @@ export default function Createblogpage() {
                 Write a small but catchy subject for your blog
               </FormHelperText>
             </FormControl>
-            <FormControl>
+            <FormControl isRequired>
               <FormLabel>Content</FormLabel>
               <FormHelperText>
                 The content is written in markdown language
@@ -161,6 +161,7 @@ export default function Createblogpage() {
                   colorScheme="teal"
                   variant="solid"
                   onClick={() => handlePublish()}
+                  isDisabled={title === "" || summary === "" || content === ""}
                 >
                   Publish
                 </Button>

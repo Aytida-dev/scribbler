@@ -4,25 +4,28 @@ import CustomBlog from "../components/CustomBlog";
 
 export default function Myblogspage() {
   const [blogs, setBlogs] = useState([]);
+
   useEffect(() => {
-    async function init() {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/blog/getBlogsByUser`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      const data = await res.json();
-      console.log(data);
-      setBlogs(data.blogs.reverse());
-    }
     init();
   }, []);
+
+  async function init() {
+    const res = await fetch(
+      `${import.meta.env.VITE_API_URL}/blog/getBlogsByUser`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    const data = await res.json();
+    console.log(data);
+    setBlogs(data.blogs.reverse());
+  }
+
   return (
     <Box>
-      <Skeleton isLoaded={blogs.length > 0}>
+      <Skeleton isLoaded={blogs.length !== 0}>
         {blogs &&
           blogs.map((blog) => (
             <CustomBlog
@@ -33,6 +36,7 @@ export default function Myblogspage() {
               key={blog._id}
               id={blog._id}
               canEdit={true}
+              reload={init}
             />
           ))}
       </Skeleton>

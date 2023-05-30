@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Card,
   CardBody,
@@ -16,6 +17,7 @@ export default function CustomBlog({
   date,
   id,
   canEdit,
+  reload,
 }) {
   const changeDate = new Date(date);
   const year = changeDate.getFullYear();
@@ -35,6 +37,22 @@ export default function CustomBlog({
   ];
   const dayOfWeek = days[dayOfWeeknumber];
   const newDate = `${day}-${month}-${year} (${dayOfWeek})`;
+
+  async function handleDelete() {
+    const res = await fetch(
+      `${import.meta.env.VITE_API_URL}/blog/deleteBlog/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    const data = await res.json();
+    console.log(data);
+    reload();
+  }
+
   return (
     <Card
       direction={{ base: "column", sm: "row" }}
@@ -56,11 +74,16 @@ export default function CustomBlog({
               </Button>
             </Link>
             {canEdit && (
-              <Link to={`/edit/${id}`}>
-                <Button variant="solid" colorScheme="blue">
-                  Edit Blog
+              <Flex gap={10}>
+                <Link to={`/edit/${id}`}>
+                  <Button variant="solid" colorScheme="blue">
+                    Edit Blog
+                  </Button>
+                </Link>
+                <Button colorScheme="red" onClick={() => handleDelete()}>
+                  delete
                 </Button>
-              </Link>
+              </Flex>
             )}
             <Text py="2" opacity={"50%"}>
               by : {author} at: {newDate}
