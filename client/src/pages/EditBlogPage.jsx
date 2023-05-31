@@ -19,8 +19,9 @@ import {
   UnorderedList,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { userContext } from "../App";
 import Blogpreview from "../components/Blogpreview";
 import CustomAlert from "../components/Customalert";
 
@@ -31,23 +32,15 @@ export default function EditBlogPage() {
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
-  const [createdBy, setCreatedBy] = useState("");
+  // const [createdBy, setCreatedBy] = useState("");
   const [createdAt, setCreatedAt] = useState("");
 
   const [showAlert, setShowAlert] = useState({ status: "" });
 
-  useEffect(() => {
-    async function initMe() {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/me`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const data = await res.json();
-      //   console.log(data);
-      setCreatedBy(data.user.email);
-    }
+  const { user } = useContext(userContext);
+  const createdBy = user.email;
 
+  useEffect(() => {
     async function initBlog() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/blog/getblog/${id}`
@@ -78,11 +71,7 @@ export default function EditBlogPage() {
     const newDate = `${day}-${month}-${year} (${dayOfWeek})`;
     setCreatedAt(newDate);
 
-    async function init() {
-      await initMe();
-      await initBlog();
-    }
-    init();
+    initBlog();
   }, []);
 
   const handleUpdate = async () => {

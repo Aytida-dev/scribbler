@@ -1,5 +1,6 @@
 import { Button, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { userContext } from "../App";
 import CustomAlert from "../components/Customalert";
 
 export default function Loginpage() {
@@ -9,6 +10,8 @@ export default function Loginpage() {
   const [allCorrect, setAllCorrect] = useState(false);
 
   const [showAlert, setShowAlert] = useState({ status: "" });
+
+  const { login } = useContext(userContext);
 
   const checkAllCorrect = () => {
     if (email.length > 0 && password.length > 0) {
@@ -48,6 +51,7 @@ export default function Loginpage() {
     if (result.status === 404) {
       setShowAlert({ status: "error" });
     }
+    login();
   };
 
   useEffect(() => {

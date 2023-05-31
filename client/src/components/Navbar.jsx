@@ -31,23 +31,17 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { userContext } from "../App";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setLoggedIn(true);
-    }
-  }, []);
+  const { loggedIn, user, logout } = useContext(userContext);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setLoggedIn(false);
+    logout();
     window.location.href = "/";
   };
 
