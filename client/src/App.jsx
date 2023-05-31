@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react";
-import { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
+import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import AllRoutes from "./routes/AllRoutes";
@@ -7,7 +8,7 @@ import AllRoutes from "./routes/AllRoutes";
 const userContext = createContext();
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState();
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -53,9 +54,11 @@ function App() {
       <Box position="fixed" top={0} width="100%" zIndex="999">
         <Navbar />
       </Box>
-      <Box className="App" paddingTop="60px">
-        <AllRoutes />
-      </Box>
+      <BrowserRouter>
+        <Box className="App" paddingTop="60px">
+          <AllRoutes />
+        </Box>
+      </BrowserRouter>
     </userContext.Provider>
   );
 }

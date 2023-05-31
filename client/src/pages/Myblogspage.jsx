@@ -19,7 +19,7 @@ export default function Myblogspage() {
       }
     );
     const data = await res.json();
-    console.log(data);
+
     setBlogs(data.blogs.reverse());
   }
 

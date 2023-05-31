@@ -31,10 +31,10 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { userContext } from "../App";
 
-export default function WithSubnavigation() {
+function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -121,36 +121,35 @@ export default function WithSubnavigation() {
                   src={"https://avatars.dicebear.com/api/male/username.svg"}
                 />
               </MenuButton>
-              <MenuList alignItems={"center"}>
-                <br />
-                <Center>
-                  <Avatar
-                    size={"2xl"}
-                    src={"https://avatars.dicebear.com/api/male/username.svg"}
-                  />
-                </Center>
-                <br />
-                <Center>
-                  <p>Username</p>
-                </Center>
-                <br />
-                <MenuDivider />
+              <div>
+                <MenuList alignItems={"center"}>
+                  <Center>
+                    <Avatar
+                      size={"2xl"}
+                      src={"https://avatars.dicebear.com/api/male/username.svg"}
+                    />
+                  </Center>
 
-                <MenuItem>My profile</MenuItem>
-                <MenuItem
-                  onClick={() => handleLogout()}
-                  display={{ base: "none", md: "inline-flex" }}
-                  fontSize={"sm"}
-                  fontWeight={600}
-                  color={"white"}
-                  bg={"pink.400"}
-                  _hover={{
-                    bg: "pink.300",
-                  }}
-                >
-                  Logout
-                </MenuItem>
-              </MenuList>
+                  <Box textAlign={"center"}>{user.username}</Box>
+
+                  <MenuDivider />
+
+                  <MenuItem>My profile</MenuItem>
+                  <MenuItem
+                    onClick={() => handleLogout()}
+                    display={{ base: "none", md: "inline-flex" }}
+                    fontSize={"sm"}
+                    fontWeight={600}
+                    color={"white"}
+                    bg={"pink.400"}
+                    _hover={{
+                      bg: "pink.300",
+                    }}
+                  >
+                    Logout
+                  </MenuItem>
+                </MenuList>
+              </div>
             </Menu>
           ) : (
             <Flex justifyContent={"space-between"} gap={6} margin={0}>
@@ -219,40 +218,6 @@ const DesktopNav = ({ loggedIn }) => {
     </Stack>
   );
 };
-
-//   const DesktopSubNav = ({ label, href, subLabel }) => {
-//     return (
-//       <Link
-//         href={href}
-//         role={'group'}
-//         display={'block'}
-//         p={2}
-//         rounded={'md'}
-//         _hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}>
-//         <Stack direction={'row'} align={'center'}>
-//           <Box>
-//             <Text
-//               transition={'all .3s ease'}
-//               _groupHover={{ color: 'pink.400' }}
-//               fontWeight={500}>
-//               {label}
-//             </Text>
-//             <Text fontSize={'sm'}>{subLabel}</Text>
-//           </Box>
-//           <Flex
-//             transition={'all .3s ease'}
-//             transform={'translateX(-10px)'}
-//             opacity={0}
-//             _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
-//             justify={'flex-end'}
-//             align={'center'}
-//             flex={1}>
-//             <Icon color={'pink.400'} w={5} h={5} as={ChevronRightIcon} />
-//           </Flex>
-//         </Stack>
-//       </Link>
-//     );
-//   };
 
 const MobileNav = () => {
   return (
@@ -331,3 +296,5 @@ const NAV_ITEMS = [
     href: "/createblog",
   },
 ];
+
+export default Navbar;
