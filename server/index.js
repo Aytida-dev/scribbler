@@ -17,7 +17,7 @@ app.use('/blog', blogRouter);
 
 app.get('/', (req, res) => {
     res.send({
-        message: "Hello World"
+        message: "server running smoothly"
     })
 })
 

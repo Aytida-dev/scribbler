@@ -125,7 +125,7 @@ export default function EditBlogPage() {
   }, [showAlert.status]);
 
   return (
-    <Skeleton isLoaded={title}>
+    <Skeleton isLoaded={title || createdBy}>
       {showAlert.status === "success" && (
         <CustomAlert
           status={"success"}

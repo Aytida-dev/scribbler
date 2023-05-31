@@ -143,20 +143,18 @@ export default function WithSubnavigation() {
                 <MenuDivider />
 
                 <MenuItem>My profile</MenuItem>
-                <MenuItem>
-                  <Button
-                    onClick={() => handleLogout()}
-                    display={{ base: "none", md: "inline-flex" }}
-                    fontSize={"sm"}
-                    fontWeight={600}
-                    color={"white"}
-                    bg={"pink.400"}
-                    _hover={{
-                      bg: "pink.300",
-                    }}
-                  >
-                    Logout
-                  </Button>
+                <MenuItem
+                  onClick={() => handleLogout()}
+                  display={{ base: "none", md: "inline-flex" }}
+                  fontSize={"sm"}
+                  fontWeight={600}
+                  color={"white"}
+                  bg={"pink.400"}
+                  _hover={{
+                    bg: "pink.300",
+                  }}
+                >
+                  Logout
                 </MenuItem>
               </MenuList>
             </Menu>
