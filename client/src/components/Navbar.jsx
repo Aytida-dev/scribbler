@@ -134,7 +134,11 @@ function Navbar() {
 
                   <MenuDivider />
 
-                  <MenuItem>My profile</MenuItem>
+                  {/* <Link to={`/${user.username}`}> */}
+                  <MenuItem as={"a"} href={`/${user.username}`}>
+                    Profile
+                  </MenuItem>
+                  {/* </Link> */}
                   <MenuItem
                     onClick={() => handleLogout()}
                     display={{ base: "none", md: "inline-flex" }}

@@ -76,6 +76,21 @@ userRouter.get("/me", auth, async (req, res) => {
   }
 })
 
+userRouter.patch("/updateuser", auth, async (req, res) => {
+  try {
+    const update = req.body;
+    const user = await userModel.findOneAndUpdate({ email: req.user.email }, update, { new: true });
+    res.send({
+      message: "user updated",
+    });
+    
+  } catch (error) {
+    res.status(400).send({
+      message: err.message,
+    });
+  }
+})
+
 module.exports = { userRouter };
 
 // "username":"ai",

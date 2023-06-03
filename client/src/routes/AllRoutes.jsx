@@ -5,6 +5,7 @@ import EditBlogPage from "../pages/EditBlogPage";
 import Homepage from "../pages/Homepage";
 import Loginpage from "../pages/Loginpage";
 import Myblogspage from "../pages/Myblogspage";
+import Myprofilepage from "../pages/Myprofilepage";
 import Signuppage from "../pages/Signuppage";
 import PrivateRoute from "./PrivateRoute";
 
@@ -19,6 +20,7 @@ export default function AllRoutes() {
         <Route path="/myblogs" element={<Myblogspage />} />
         <Route path="/createblog" element={<Createblogpage />} />
         <Route path="/edit/:id" element={<EditBlogPage />} />
+        <Route path="/:username" element={<Myprofilepage />} />
       </Route>
     </Routes>
   );

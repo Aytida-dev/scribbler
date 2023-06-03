@@ -39,7 +39,7 @@ export default function Blogspage() {
   const newDate = `${day}-${month}-${year} (${dayOfWeek})`;
 
   return (
-    <Skeleton isLoaded={blog.title}>
+    <Skeleton isLoaded={blog.title} width={"100vp"} height={"100%"}>
       <Blogpreview
         title={blog.title}
         content={blog.content}
