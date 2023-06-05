@@ -33,6 +33,7 @@ export default function Myblogspage() {
               summary={blog.summary}
               author={blog.createdBy}
               date={blog.createdAt}
+              image={blog.image}
               key={blog._id}
               id={blog._id}
               canEdit={true}

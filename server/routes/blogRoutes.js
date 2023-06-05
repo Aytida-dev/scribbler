@@ -118,9 +118,16 @@ blogRouter.delete("/deleteBlog/:id", auth, async (req, res) => {
   }
 });
 
-blogRouter.patch("/updateBlog/:id", auth, async (req, res) => {
+blogRouter.patch("/updateBlog/:id", auth, upload.single('image') , async (req, res) => {
   try {
-    const updatedBlog = req.body;
+    const { title, content, summary , createdBy} = req.body;
+    const updatedBlog = {
+      title,
+      content,
+      summary,
+      createdBy,
+      image: req.file.filename,
+    }
     const blog = await blogModel.findByIdAndUpdate(req.params.id, updatedBlog, {
       new: true,
     });

@@ -24,6 +24,7 @@ export default function Homepage() {
             date={blog.createdAt}
             key={blog._id}
             id={blog._id}
+            image={blog.image}
           />
         ))}
     </Skeleton>

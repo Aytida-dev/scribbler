@@ -33,7 +33,8 @@ export default function EditBlogPage() {
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
   const [createdAt, setCreatedAt] = useState("");
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(false);
 
   const [showAlert, setShowAlert] = useState({ status: "" });
 
@@ -50,7 +51,12 @@ export default function EditBlogPage() {
       setTitle(data.blog.title);
       setSummary(data.blog.summary);
       setContent(data.blog.content);
-      // setImage(data.blog.image);
+
+      const resImage = await fetch(
+        `${import.meta.env.VITE_API_URL}/blog/images/${data.blog.image}`
+      );
+      const url = resImage.url;
+      setImage(url);
     }
 
     const changeDate = new Date();
@@ -76,22 +82,28 @@ export default function EditBlogPage() {
     initBlog();
   }, []);
 
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+    setPreview(true);
+  };
+
   const handleUpdate = async () => {
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("summary", summary);
+    formData.append("content", content);
+    formData.append("createdAt", createdAt);
+    formData.append("createdBy", createdBy);
+    formData.append("image", image);
     const response = await fetch(
       `http://localhost:4000/blog/updateBlog/${id}`,
       {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify({
-          title,
-          summary,
-          content,
-          createdBy,
-          image,
-        }),
+        body: formData,
       }
     );
     const data = await response.json();
@@ -194,7 +206,7 @@ export default function EditBlogPage() {
               <Input
                 type="file"
                 accept="image/*"
-                onChange={(e) => setImage(e.target.files[0])}
+                onChange={handleImageChange}
               />
             </FormControl>
             <FormControl isRequired>
@@ -253,6 +265,7 @@ export default function EditBlogPage() {
             createdBy={createdBy}
             newDate={createdAt}
             image={image}
+            preview={preview}
           />
         </Box>
       </Flex>
