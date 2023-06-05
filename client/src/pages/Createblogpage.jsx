@@ -20,7 +20,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { userContext } from "../App";
 import Blogpreview from "../components/Blogpreview";
 import CustomAlert from "../components/Customalert";
@@ -29,8 +28,8 @@ export default function Createblogpage() {
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
-  // const [createdBy, setCreatedBy] = useState("");
   const [createdAt, setCreatedAt] = useState("");
+  const [image, setImage] = useState(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -67,7 +66,7 @@ export default function Createblogpage() {
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          // "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
@@ -75,6 +74,7 @@ export default function Createblogpage() {
           summary,
           content,
           createdBy,
+          image,
         }),
       }
     );
@@ -95,7 +95,7 @@ export default function Createblogpage() {
     if (showAlert.status === "success") {
       setTimeout(() => {
         setShowAlert({ status: "" }); // Hide the alert after 4 seconds
-        window.location.href = "/myblogs"; // Redirect to the login page
+        // window.location.href = "/myblogs"; // Redirect to the login page
       }, 3000);
     }
   }, [showAlert.status]);
@@ -173,6 +173,14 @@ export default function Createblogpage() {
               />
               <FormHelperText>This will the Heading of the blog</FormHelperText>
             </FormControl>
+            <FormControl>
+              <FormLabel>Thumbnail</FormLabel>
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </FormControl>
             <FormControl isRequired>
               <FormLabel>Summary</FormLabel>
               <Input
@@ -228,6 +236,7 @@ export default function Createblogpage() {
             content={content}
             createdBy={createdBy}
             newDate={createdAt}
+            image={image}
           />
         </Box>
       </Flex>

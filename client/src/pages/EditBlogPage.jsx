@@ -32,8 +32,8 @@ export default function EditBlogPage() {
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
-  // const [createdBy, setCreatedBy] = useState("");
   const [createdAt, setCreatedAt] = useState("");
+  const [image, setImage] = useState();
 
   const [showAlert, setShowAlert] = useState({ status: "" });
 
@@ -46,9 +46,11 @@ export default function EditBlogPage() {
         `${import.meta.env.VITE_API_URL}/blog/getblog/${id}`
       );
       const data = await res.json();
+      console.log(data);
       setTitle(data.blog.title);
       setSummary(data.blog.summary);
       setContent(data.blog.content);
+      // setImage(data.blog.image);
     }
 
     const changeDate = new Date();
@@ -88,6 +90,7 @@ export default function EditBlogPage() {
           summary,
           content,
           createdBy,
+          image,
         }),
       }
     );
@@ -186,6 +189,14 @@ export default function EditBlogPage() {
               />
               <FormHelperText>This will the Heading of the blog</FormHelperText>
             </FormControl>
+            <FormControl>
+              <FormLabel>Thumbnail</FormLabel>
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </FormControl>
             <FormControl isRequired>
               <FormLabel>Summary</FormLabel>
               <Input
@@ -241,6 +252,7 @@ export default function EditBlogPage() {
             content={content}
             createdBy={createdBy}
             newDate={createdAt}
+            image={image}
           />
         </Box>
       </Flex>

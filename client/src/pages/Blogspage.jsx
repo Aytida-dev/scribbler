@@ -14,6 +14,7 @@ export default function Blogspage() {
         `${import.meta.env.VITE_API_URL}/blog/getblog/${id}`
       );
       const data = await res.json();
+      console.log(data);
       setBlog(data.blog);
     }
     init();
