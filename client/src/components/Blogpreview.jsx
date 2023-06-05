@@ -4,6 +4,7 @@ import {
   CardHeader,
   Flex,
   Heading,
+  Image,
   Skeleton,
   Text,
 } from "@chakra-ui/react";
@@ -15,20 +16,25 @@ export default function Blogpreview({
   content,
   newDate,
   image,
+  preview,
 }) {
   return (
     <Skeleton isLoaded={title}>
       <Card>
         <CardHeader>
           <Flex gap={"10px"} direction={"column"} alignItems={"center"}>
-            {image && (
-              <img
-                src={URL.createObjectURL(image)}
-                alt="blog image"
-                width={"100%"}
-                height={"auto"}
-              />
-            )}
+            {preview
+              ? image && (
+                  <Image src={URL.createObjectURL(image)} width={"50%"} />
+                )
+              : image && (
+                  <img
+                    src={image}
+                    alt="blog image"
+                    width={"50%"}
+                    height={"auto"}
+                  />
+                )}
             <Heading size="xl">{title}</Heading>
           </Flex>
           <Flex justifyContent={"end"} gap={"10px"}>

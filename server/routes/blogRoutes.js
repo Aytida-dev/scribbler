@@ -5,6 +5,7 @@ const fs = require("fs");
 
 const { blogModel } = require("../model/blogModel");
 const { auth } = require("../middlewares/auth");
+const path = require("path");
 
 // Multer configuration for handling image uploads
 const storage = multer.diskStorage({
@@ -18,7 +19,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 blogRouter.get("/", (req, res) => {
   res.send({
@@ -68,21 +69,34 @@ blogRouter.get("/getBlogsByUser", auth, async (req, res) => {
   }
 });
 
-blogRouter.post("/createBlog", auth, upload.single("image"), async (req, res) => {
+blogRouter.post("/createBlog", auth, upload.single('image'), async (req, res) => {
   try {
-    const { title, content } = req.body;
-    // console.log(req.file);
+    
+    const {title , content , summary , createdBy} = req.body;
     const newBlog = new blogModel({
-      title: title,
-      content: content,
-      image: req.file.path, // Access the uploaded image path from req.file
-      createdBy: req.user.email,
+      title,
+      content,
+      summary,
+      createdBy,
+      image: req.file.filename,
     });
     const blog = await newBlog.save();
     res.send({
       message: "blog created",
       blog: blog,
     });
+  } catch (err) {
+    res.status(404).send({
+      message: err.message,
+    });
+  }
+});
+
+blogRouter.get("/images/:filename", (req, res) => {
+  try {
+    const filename = req.params.filename;
+    const imagePath = path.join(__dirname, "../uploads", filename);
+    res.sendFile(imagePath);
   } catch (err) {
     res.status(404).send({
       message: err.message,

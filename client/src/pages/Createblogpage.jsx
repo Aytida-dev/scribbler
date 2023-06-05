@@ -61,21 +61,23 @@ export default function Createblogpage() {
   }, []);
 
   const handlePublish = async () => {
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("summary", summary);
+    formData.append("content", content);
+    formData.append("createdAt", createdAt);
+    formData.append("createdBy", createdBy);
+    formData.append("image", image);
+
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/blog/createBlog`,
       {
         method: "POST",
         headers: {
-          // "Content-Type": "multipart/form-data",
+          // "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify({
-          title,
-          summary,
-          content,
-          createdBy,
-          image,
-        }),
+        body: formData,
       }
     );
     const data = await response.json();
@@ -95,7 +97,7 @@ export default function Createblogpage() {
     if (showAlert.status === "success") {
       setTimeout(() => {
         setShowAlert({ status: "" }); // Hide the alert after 4 seconds
-        // window.location.href = "/myblogs"; // Redirect to the login page
+        window.location.href = "/myblogs"; // Redirect to the login page
       }, 3000);
     }
   }, [showAlert.status]);
@@ -237,6 +239,7 @@ export default function Createblogpage() {
             createdBy={createdBy}
             newDate={createdAt}
             image={image}
+            preview={true}
           />
         </Box>
       </Flex>

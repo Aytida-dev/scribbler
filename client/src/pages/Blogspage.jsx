@@ -7,9 +7,10 @@ import Blogpreview from "../components/Blogpreview";
 export default function Blogspage() {
   const { title, id } = useParams();
   const [blog, setBlog] = useState({});
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
-    async function init() {
+    async function initBlog() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/blog/getblog/${id}`
       );
@@ -17,8 +18,21 @@ export default function Blogspage() {
       console.log(data);
       setBlog(data.blog);
     }
-    init();
+
+    initBlog();
   }, []);
+
+  useEffect(() => {
+    async function imageInit() {
+      if (!blog.image) return;
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/blog/images/${blog.image}`
+      );
+      const url = res.url;
+      setImage(url);
+    }
+    imageInit();
+  }, [blog]);
 
   const changeDate = new Date(blog.createdAt);
   const year = changeDate.getFullYear();
@@ -46,6 +60,7 @@ export default function Blogspage() {
         content={blog.content}
         createdBy={blog.createdBy}
         newDate={newDate}
+        image={image}
       />
     </Skeleton>
   );
