@@ -128,7 +128,7 @@ blogRouter.delete("/deleteBlog/:id", auth, async (req, res) => {
     const blog = await blogModel.findByIdAndDelete(req.params.id);
     res.send({
       message: "blog deleted",
-      blog: blog,
+      
     });
   } catch (err) {
     res.status(404).send({
