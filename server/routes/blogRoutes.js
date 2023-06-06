@@ -78,7 +78,7 @@ blogRouter.post("/createBlog", auth, upload.single('image'), async (req, res) =>
       content,
       summary,
       createdBy,
-      image: req.file.filename,
+      image: req.file ? req.file.filename : '',
     });
     const blog = await newBlog.save();
     res.send({
@@ -126,7 +126,7 @@ blogRouter.patch("/updateBlog/:id", auth, upload.single('image') , async (req, r
       content,
       summary,
       createdBy,
-      image: req.file.filename,
+      image:req.file?  req.file.filename : '',
     }
     const blog = await blogModel.findByIdAndUpdate(req.params.id, updatedBlog, {
       new: true,

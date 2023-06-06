@@ -1,15 +1,21 @@
 import {
   Box,
   Button,
+  ButtonGroup,
   Card,
   CardBody,
   CardFooter,
+  Divider,
   Flex,
   Heading,
+  Image,
+  Stack,
   Text,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import fallback from "../assets/fallback.webp";
+import "./compCss.css";
 
 export default function CustomBlog({
   title,
@@ -22,9 +28,13 @@ export default function CustomBlog({
   reload,
 }) {
   const [imgUrl, setImgUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function imageInit() {
+      if (!image) {
+        return;
+      }
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/blog/images/${image}`
       );
@@ -53,6 +63,7 @@ export default function CustomBlog({
   const newDate = `${day}-${month}-${year} (${dayOfWeek})`;
 
   async function handleDelete() {
+    setLoading(true);
     const res = await fetch(
       `${import.meta.env.VITE_API_URL}/blog/deleteBlog/${id}`,
       {
@@ -62,60 +73,58 @@ export default function CustomBlog({
         },
       }
     );
-    const data = await res.json();
-    console.log(data);
+    setLoading(false);
     reload();
   }
 
   return (
-    <Card
-      direction={{ base: "column", sm: "row" }}
-      overflow="hidden"
-      variant="outline"
-    >
-      <Flex
-        flexWrap={"wrap"}
-        justifyContent={"space-between"}
-        direction={"column"}
-      >
-        <Flex width={{ base: "100%", md: "50%" }}>
-          <img src={imgUrl} alt={title} width={"50%"} />
+    <Card maxW="sm">
+      <Link to={`/${id}/${title}`}>
+        <CardBody>
+          <Image
+            src={imgUrl}
+            alt="Green double couch with wooden legs"
+            borderRadius="lg"
+            fallbackSrc={fallback}
+            width={"100%"}
+            height={"200px"}
+            objectFit={"cover"}
+          />
+          <Stack mt="6" spacing="3">
+            <Heading size="md">{title}</Heading>
+            <Text height={"100px"} className="text">
+              {summary}
+            </Text>
+          </Stack>
+        </CardBody>
+      </Link>
+      <Divider />
+      <CardFooter>
+        <Flex justifyContent={"space-between"} width={"100%"}>
+          {canEdit ? (
+            <>
+              <Link to={`/edit/${id}`}>
+                <Button variant="solid" colorScheme="blue">
+                  Edit Blog
+                </Button>
+              </Link>
+              <Button
+                colorScheme="red"
+                onClick={() => handleDelete()}
+                isLoading={loading}
+              >
+                delete
+              </Button>
+            </>
+          ) : (
+            <Link to={`/${id}/${title}`}>
+              <Button variant="solid" colorScheme="blue">
+                Read more
+              </Button>
+            </Link>
+          )}
         </Flex>
-        <Box width={{ base: "100%", md: "50%" }}>
-          <Flex direction={"column"} width={"100%"}>
-            <CardBody>
-              <Heading size="md">{title}</Heading>
-
-              <Text py="2">{summary}</Text>
-            </CardBody>
-
-            <CardFooter>
-              <Flex alignItems={"start"} direction={"column"} gap={"10px"}>
-                <Link to={`/${id}/${title}`}>
-                  <Button variant="solid" colorScheme="blue">
-                    Read more
-                  </Button>
-                </Link>
-                {canEdit && (
-                  <Flex gap={10}>
-                    <Link to={`/edit/${id}`}>
-                      <Button variant="solid" colorScheme="blue">
-                        Edit Blog
-                      </Button>
-                    </Link>
-                    <Button colorScheme="red" onClick={() => handleDelete()}>
-                      delete
-                    </Button>
-                  </Flex>
-                )}
-                <Text py="2" opacity={"50%"}>
-                  by : {author} at: {newDate}
-                </Text>
-              </Flex>
-            </CardFooter>
-          </Flex>
-        </Box>
-      </Flex>
+      </CardFooter>
     </Card>
   );
 }

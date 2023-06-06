@@ -1,4 +1,4 @@
-import { Box, Skeleton } from "@chakra-ui/react";
+import { Box, SimpleGrid, Skeleton } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import CustomBlog from "../components/CustomBlog";
 
@@ -26,20 +26,26 @@ export default function Myblogspage() {
   return (
     <Box>
       <Skeleton isLoaded={blogs.length !== 0}>
-        {blogs &&
-          blogs.map((blog) => (
-            <CustomBlog
-              title={blog.title}
-              summary={blog.summary}
-              author={blog.createdBy}
-              date={blog.createdAt}
-              image={blog.image}
-              key={blog._id}
-              id={blog._id}
-              canEdit={true}
-              reload={init}
-            />
-          ))}
+        <SimpleGrid
+          templateColumns="repeat(auto-fill, minmax(300px, 1fr))"
+          gap={6}
+          padding={6}
+        >
+          {blogs &&
+            blogs.map((blog) => (
+              <CustomBlog
+                title={blog.title}
+                summary={blog.summary}
+                author={blog.createdBy}
+                date={blog.createdAt}
+                image={blog.image}
+                key={blog._id}
+                id={blog._id}
+                canEdit={true}
+                reload={init}
+              />
+            ))}
+        </SimpleGrid>
       </Skeleton>
     </Box>
   );

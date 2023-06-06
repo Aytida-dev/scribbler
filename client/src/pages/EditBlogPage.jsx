@@ -52,6 +52,10 @@ export default function EditBlogPage() {
       setSummary(data.blog.summary);
       setContent(data.blog.content);
 
+      if (!image) {
+        return;
+      }
+
       const resImage = await fetch(
         `${import.meta.env.VITE_API_URL}/blog/images/${data.blog.image}`
       );

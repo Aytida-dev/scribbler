@@ -9,6 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import fallback from "../assets/fallback.webp";
 
 export default function Blogpreview({
   title,
@@ -25,14 +26,18 @@ export default function Blogpreview({
           <Flex gap={"10px"} direction={"column"} alignItems={"center"}>
             {preview
               ? image && (
-                  <Image src={URL.createObjectURL(image)} width={"50%"} />
+                  <Image
+                    src={URL.createObjectURL(image)}
+                    width={"50%"}
+                    fallback={fallback}
+                  />
                 )
               : image && (
-                  <img
+                  <Image
                     src={image}
                     alt="blog image"
-                    width={"50%"}
-                    height={"auto"}
+                    fallback={fallback}
+                    boxSize={"30%"}
                   />
                 )}
             <Heading size="xl">{title}</Heading>
