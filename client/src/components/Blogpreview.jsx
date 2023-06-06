@@ -29,14 +29,14 @@ export default function Blogpreview({
                   <Image
                     src={URL.createObjectURL(image)}
                     width={"50%"}
-                    fallback={fallback}
+                    fallbackSrc={fallback}
                   />
                 )
               : image && (
                   <Image
                     src={image}
                     alt="blog image"
-                    fallback={fallback}
+                    fallbackSrc={fallback}
                     boxSize={"30%"}
                   />
                 )}
