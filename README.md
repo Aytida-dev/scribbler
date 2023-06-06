@@ -4,6 +4,8 @@
 
 Scribbler is a feature-rich blog site that allows users to create, edit, and manage their blogs. It offers a user-friendly interface with beginner-friendly UI elements and a responsive design. With Scribbler, users can write blogs using Markdown language, upload thumbnail images for their blogs, and interact with other users by viewing their profiles.
 
+It is made using `react+javascript+chakra_UI` from VITE as frontend and `node+express+mongodb` as backend.
+
 ## Table of Contents
 
 1. [Getting Started](#getting-started)
