@@ -116,17 +116,15 @@ function Navbar() {
                 cursor={"pointer"}
                 minW={0}
               >
-                <Avatar
-                  size={"sm"}
-                  src={"https://avatars.dicebear.com/api/male/username.svg"}
-                />
+                <Avatar size={"sm"} src={user.image} name={user.username} />
               </MenuButton>
               <div>
                 <MenuList alignItems={"center"}>
                   <Center>
                     <Avatar
                       size={"2xl"}
-                      src={"https://avatars.dicebear.com/api/male/username.svg"}
+                      src={user.image}
+                      name={user.username}
                     />
                   </Center>
 

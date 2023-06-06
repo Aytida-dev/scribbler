@@ -3,9 +3,24 @@ const express = require("express");
 require("dotenv").config();
 const { userModel } = require("../model/userModel");
 const userRouter = express.Router();
-
+const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const { auth } = require("../middlewares/auth");
+const multer = require("multer");
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadDir = './userImg';
+    fs.mkdirSync(uploadDir, { recursive: true }); // Create the 'uploads' folder if it doesn't exist
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  },
+});
+
+const upload = multer({ storage });
 
 
 userRouter.get("/", (req, res) => {
@@ -14,9 +29,16 @@ userRouter.get("/", (req, res) => {
   });
 });
 
-userRouter.post("/signup", async (req, res) => {
+userRouter.post("/signup",upload.single('image') ,async (req, res) => {
   try {
-    const newUser = userModel(req.body);
+    const {username, password, email, bio} = req.body;
+    const newUser = userModel({
+      username,
+      password,
+      email,
+      bio,
+      image: req.file ? req.file.filename : "",
+    });
     await newUser.save();
     res.send({
       message: "user signed up",
@@ -31,6 +53,18 @@ userRouter.post("/signup", async (req, res) => {
         message: err.message,
       });
     }
+  }
+});
+
+userRouter.get("/images/:filename", (req, res) => {
+  try {
+    const filename = req.params.filename;
+    const imagePath = path.join(__dirname, "../userImg", filename);
+    res.sendFile(imagePath);
+  } catch (err) {
+    res.status(404).send({
+      message: err.message,
+    });
   }
 });
 

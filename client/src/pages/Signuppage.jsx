@@ -16,6 +16,7 @@ export default function Signuppage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [bio, setBio] = useState("");
+  const [image, setImage] = useState(null);
 
   const [allCorrect, setAllCorrect] = useState(false);
 
@@ -39,21 +40,23 @@ export default function Signuppage() {
   }, [penName, email, password, confirmPassword]);
 
   const handleOnSubmit = async (e) => {
-    const data = {
-      username: penName,
-      email,
-      password,
-      confirmPassword,
-      bio: bio || "Oops i forgot to write my bio",
-    };
+    const newBio = bio === "" ? "Oops i forgot to write my bio" : bio;
+
+    const formData = new FormData();
+    formData.append("username", penName);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("bio", newBio);
+    formData.append("image", image);
+
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/user/signup`,
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: formData,
       }
     );
     const result = await response.json();
@@ -113,6 +116,14 @@ export default function Signuppage() {
           discription={"Please go to login page"}
         />
       )}
+      <FormControl maxWidth={"500px"} isRequired>
+        <FormLabel>profile pic </FormLabel>
+        <Input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImage(e.target.files[0])}
+        />
+      </FormControl>
       <FormControl maxWidth={"500px"} isRequired>
         <FormLabel>Pen name</FormLabel>
         <Input

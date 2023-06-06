@@ -26,6 +26,13 @@ function App() {
     });
     const data = await response.json();
 
+    if (data.user.image) {
+      const img = await fetch(
+        `${import.meta.env.VITE_API_URL}/user/images/${data.user.image}`
+      );
+      data.user.image = img.url;
+    }
+
     if (data.message === "user fetched") {
       setUser(data.user);
       setLoggedIn(true);
