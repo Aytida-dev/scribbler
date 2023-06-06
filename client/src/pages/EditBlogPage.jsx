@@ -100,7 +100,7 @@ export default function EditBlogPage() {
     formData.append("createdBy", createdBy);
     formData.append("image", image);
     const response = await fetch(
-      `http://localhost:4000/blog/updateBlog/${id}`,
+      `${import.meta.env.VITE_API_URL}/blog/updateBlog/${id}`,
       {
         method: "PATCH",
         headers: {
