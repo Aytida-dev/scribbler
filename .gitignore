@@ -1,1 +1,3 @@
-src/uploads/
+server/uploads/
+
+server/.env
