@@ -11,7 +11,13 @@ import {
 import { useEffect, useState } from "react";
 import CustomAlert from "./Customalert";
 
-export default function Customform({ penName, email, password, bio }) {
+export default function Customform({
+  penName,
+  email,
+  password,
+  bio,
+  modalClose,
+}) {
   const [PenName, setPenName] = useState("");
   // const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -29,19 +35,22 @@ export default function Customform({ penName, email, password, bio }) {
   }, [penName, email, password, bio]);
 
   const updateHandler = async () => {
-    const response = await fetch("http://localhost:4000/user/updateuser", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({
-        username: PenName,
-        email: Email,
-        password: Password,
-        bio: Bio,
-      }),
-    });
+    const formData = new FormData();
+    formData.append("username", PenName);
+    formData.append("email", email);
+    formData.append("password", Password);
+    formData.append("bio", Bio);
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/user/updateuser`,
+      {
+        method: "PATCH",
+        headers: {
+          // "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: formData,
+      }
+    );
     const data = await response.json();
     console.log(data);
     if (data.message === "user updated") {
@@ -120,11 +129,7 @@ export default function Customform({ penName, email, password, bio }) {
       </FormControl>
       <FormControl>
         <Flex justifyContent="space-between" width="100%">
-          <Button
-            colorScheme="pink"
-            variant="solid"
-            onClick={() => (window.location.href = "/")}
-          >
+          <Button colorScheme="pink" variant="solid" onClick={modalClose}>
             Discard
           </Button>
           <Button

@@ -9,12 +9,18 @@ import {
   Flex,
   Heading,
   Image,
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  Skeleton,
   Stack,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import fallback from "../assets/fallback.webp";
+import Customuser from "./Customuser";
 import "./compCss.css";
 
 export default function CustomBlog({
@@ -29,6 +35,8 @@ export default function CustomBlog({
 }) {
   const [imgUrl, setImgUrl] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [authorDetails, setAuthorDetails] = useState(null);
 
   useEffect(() => {
     async function imageInit() {
@@ -42,6 +50,24 @@ export default function CustomBlog({
     }
     imageInit();
   }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    async function authorInit() {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/${author}`);
+      const data = await res.json();
+
+      if (data.user.image) {
+        const img = await fetch(
+          `${import.meta.env.VITE_API_URL}/user/images/${data.user.image}`
+        );
+        data.user.image = img.url;
+      }
+      setAuthorDetails(data.user);
+    }
+
+    authorInit();
+  }, [isOpen]);
 
   const changeDate = new Date(date);
   const year = changeDate.getFullYear();
@@ -79,8 +105,25 @@ export default function CustomBlog({
 
   return (
     <Card maxW="sm">
-      <Link to={`/${id}/${title}`}>
-        <CardBody>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <Skeleton isLoaded={authorDetails}>
+            {authorDetails && (
+              <Customuser
+                username={authorDetails.username}
+                email={authorDetails.email}
+                bio={authorDetails.bio}
+                blogs={authorDetails.blogs}
+                imageUrl={authorDetails.image}
+              />
+            )}
+          </Skeleton>
+        </ModalContent>
+      </Modal>
+
+      <CardBody>
+        <Link to={`/${id}/${title}`}>
           <Image
             src={imgUrl}
             alt="Green double couch with wooden legs"
@@ -96,8 +139,20 @@ export default function CustomBlog({
               {summary}
             </Text>
           </Stack>
-        </CardBody>
-      </Link>
+        </Link>
+        <Text
+          mt="4"
+          fontSize="sm"
+          color="gray.500"
+          onClick={onOpen}
+          cursor={"pointer"}
+          _hover={{
+            color: "blue.500",
+          }}
+        >
+          by :- {author} on {newDate}
+        </Text>
+      </CardBody>
       <Divider />
       <CardFooter>
         <Flex justifyContent={"space-between"} width={"100%"}>

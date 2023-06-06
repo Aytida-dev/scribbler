@@ -6,6 +6,7 @@ const fs = require("fs");
 const { blogModel } = require("../model/blogModel");
 const { auth } = require("../middlewares/auth");
 const path = require("path");
+const { userModel } = require("../model/userModel");
 
 // Multer configuration for handling image uploads
 const storage = multer.diskStorage({
@@ -81,6 +82,9 @@ blogRouter.post("/createBlog", auth, upload.single('image'), async (req, res) =>
       image: req.file ? req.file.filename : '',
     });
     const blog = await newBlog.save();
+    const user = await userModel.findOne({ email: req.user.email });
+    user.blogs = user.blogs + 1;
+    await user.save();
     res.send({
       message: "blog created",
       blog: blog,
@@ -131,6 +135,11 @@ blogRouter.patch("/updateBlog/:id", auth, upload.single('image') , async (req, r
     const blog = await blogModel.findByIdAndUpdate(req.params.id, updatedBlog, {
       new: true,
     });
+
+    //update the number of blog param of userModel of this user whose details are in req.user
+   
+
+
     res.send({
       message: "blog updated",
       blog: blog,

@@ -110,15 +110,38 @@ userRouter.get("/me", auth, async (req, res) => {
   }
 })
 
-userRouter.patch("/updateuser", auth, async (req, res) => {
+userRouter.patch("/updateuser", auth,upload.single('image'), async (req, res) => {
   try {
-    const update = req.body;
+    const {username , email , password , bio } = req.body;
+    const update = {
+      username,
+      email,
+      password,
+      bio,
+      image: req.file ? req.file.filename : "",
+    };
     const user = await userModel.findOneAndUpdate({ email: req.user.email }, update, { new: true });
     res.send({
       message: "user updated",
     });
     
   } catch (error) {
+    res.status(400).send({
+      message: err.message,
+    });
+  }
+})
+
+userRouter.get("/:author", async (req, res) => {
+  const email = req.params.author;
+  try {
+    const user = await userModel.findOne({ email: email });
+    res.send({
+      message: "user fetched",
+      user: user,
+    });
+  }
+  catch (err) {
     res.status(400).send({
       message: err.message,
     });
