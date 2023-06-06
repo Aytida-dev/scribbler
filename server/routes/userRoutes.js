@@ -11,17 +11,20 @@ const path = require("path");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const uploadDir = './userImg';
+    const uploadDir = "./userImg";
     fs.mkdirSync(uploadDir, { recursive: true }); // Create the 'uploads' folder if it doesn't exist
     cb(null, uploadDir);
   },
+
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 
 const upload = multer({ storage });
-
 
 userRouter.get("/", (req, res) => {
   res.send({
@@ -29,9 +32,9 @@ userRouter.get("/", (req, res) => {
   });
 });
 
-userRouter.post("/signup",upload.single('image') ,async (req, res) => {
+userRouter.post("/signup", upload.single("image"), async (req, res) => {
   try {
-    const {username, password, email, bio} = req.body;
+    const { username, password, email, bio } = req.body;
     const newUser = userModel({
       username,
       password,
@@ -102,35 +105,42 @@ userRouter.get("/me", auth, async (req, res) => {
       message: "user fetched",
       user: req.user,
     });
-  }
-  catch (err) {
+  } catch (err) {
     res.status(400).send({
       message: err.message,
     });
   }
-})
+});
 
-userRouter.patch("/updateuser", auth,upload.single('image'), async (req, res) => {
-  try {
-    const {username , email , password , bio } = req.body;
-    const update = {
-      username,
-      email,
-      password,
-      bio,
-      image: req.file ? req.file.filename : "",
-    };
-    const user = await userModel.findOneAndUpdate({ email: req.user.email }, update, { new: true });
-    res.send({
-      message: "user updated",
-    });
-    
-  } catch (error) {
-    res.status(400).send({
-      message: err.message,
-    });
+userRouter.patch(
+  "/updateuser",
+  auth,
+  upload.single("image"),
+  async (req, res) => {
+    try {
+      const { username, email, password, bio } = req.body;
+      const update = {
+        username,
+        email,
+        password,
+        bio,
+        image: req.file ? req.file.filename : "",
+      };
+      const user = await userModel.findOneAndUpdate(
+        { email: req.user.email },
+        update,
+        { new: true }
+      );
+      res.send({
+        message: "user updated",
+      });
+    } catch (error) {
+      res.status(400).send({
+        message: err.message,
+      });
+    }
   }
-})
+);
 
 userRouter.get("/:author", async (req, res) => {
   const email = req.params.author;
@@ -140,13 +150,12 @@ userRouter.get("/:author", async (req, res) => {
       message: "user fetched",
       user: user,
     });
-  }
-  catch (err) {
+  } catch (err) {
     res.status(400).send({
       message: err.message,
     });
   }
-})
+});
 
 module.exports = { userRouter };
 

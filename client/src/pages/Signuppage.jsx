@@ -29,7 +29,9 @@ export default function Signuppage() {
       password.length > 0 &&
       confirmPassword.length > 0 &&
       password === confirmPassword &&
-      validateEmail(email)
+      validateEmail(email) &&
+      image &&
+      image.size < 5 * 1024 * 1024
     ) {
       setAllCorrect(true);
     } else {
@@ -122,13 +124,17 @@ export default function Signuppage() {
           discription={"Please go to login page"}
         />
       )}
-      <FormControl maxWidth={"500px"} isRequired>
+      <FormControl
+        maxWidth={"500px"}
+        isInvalid={image && image.size > 5 * 1024 * 1024}
+      >
         <FormLabel>profile pic </FormLabel>
         <Input
           type="file"
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
         />
+        <FormErrorMessage>File size should be less than 5 mb</FormErrorMessage>
       </FormControl>
       <FormControl maxWidth={"500px"} isRequired>
         <FormLabel>Pen name</FormLabel>

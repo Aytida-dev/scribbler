@@ -221,13 +221,49 @@ const DesktopNav = ({ loggedIn }) => {
   );
 };
 
+// const MobileNav = () => {
+//   return (
+//     <Stack
+//       bg={useColorModeValue("white", "gray.800")}
+//       p={4}
+//       display={{ md: "none" }}
+//     >
+//       {NAV_ITEMS.map((navItem) => (
+//         <MobileNavItem key={navItem.label} {...navItem} />
+//       ))}
+//     </Stack>
+//   );
+// };
+
 const MobileNav = () => {
+  const { loggedIn, user, logout } = useContext(userContext);
+
+  const handleLogout = () => {
+    logout();
+    window.location.href = "/";
+  };
+
   return (
     <Stack
       bg={useColorModeValue("white", "gray.800")}
       p={4}
       display={{ md: "none" }}
     >
+      <Flex
+        py={2}
+        align={"center"}
+        justify={"space-between"}
+        onClick={handleLogout}
+        cursor={"pointer"}
+      >
+        <Avatar size={"sm"} src={user.image} name={user.username} />
+        <Text
+          fontWeight={600}
+          color={useColorModeValue("gray.600", "gray.200")}
+        >
+          Logout
+        </Text>
+      </Flex>
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}

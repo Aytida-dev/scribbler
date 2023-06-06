@@ -1,4 +1,4 @@
-import { Box, SimpleGrid, Skeleton } from "@chakra-ui/react";
+import { Box, Heading, SimpleGrid, Skeleton } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import CustomBlog from "../components/CustomBlog";
@@ -29,6 +29,13 @@ export default function Myblogspage() {
 
   return (
     <Box>
+      {blogs.length === 0 && (
+        <Box textAlign={"center"} mt={"20vh"}>
+          <Heading size={"lg"} opacity={"80%"}>
+            You have not published any blogs yet.
+          </Heading>
+        </Box>
+      )}
       <Skeleton isLoaded={blogs.length !== 0}>
         <InfiniteScroll
           dataLength={blogs.length}

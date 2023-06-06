@@ -3,6 +3,7 @@ import {
   Button,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormHelperText,
   FormLabel,
   Input,
@@ -205,13 +206,14 @@ export default function EditBlogPage() {
               />
               <FormHelperText>This will the Heading of the blog</FormHelperText>
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={image && image.size > 5 * 1024 * 1024}>
               <FormLabel>Thumbnail</FormLabel>
               <Input
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
               />
+              <FormErrorMessage>image must be under 5 mb</FormErrorMessage>
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Summary</FormLabel>
@@ -253,7 +255,12 @@ export default function EditBlogPage() {
                   colorScheme="teal"
                   variant="solid"
                   onClick={() => handleUpdate()}
-                  isDisabled={title === "" || summary === "" || content === ""}
+                  isDisabled={
+                    title === "" ||
+                    summary === "" ||
+                    content === "" ||
+                    (image && image.size > 5 * 1024 * 1024)
+                  }
                 >
                   Update
                 </Button>

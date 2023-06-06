@@ -15,6 +15,11 @@ const storage = multer.diskStorage({
     fs.mkdirSync(uploadDir, { recursive: true }); // Create the 'uploads' folder if it doesn't exist
     cb(null, uploadDir);
   },
+  
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+
   filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);
   },
