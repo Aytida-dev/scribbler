@@ -104,82 +104,84 @@ export default function CustomBlog({
   }
 
   return (
-    <Card maxW="sm">
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <Skeleton isLoaded={authorDetails}>
-            {authorDetails && (
-              <Customuser
-                username={authorDetails.username}
-                email={authorDetails.email}
-                bio={authorDetails.bio}
-                blogs={authorDetails.blogs}
-                imageUrl={authorDetails.image}
-              />
-            )}
-          </Skeleton>
-        </ModalContent>
-      </Modal>
+    <Skeleton isLoaded={title}>
+      <Card maxW="sm">
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <Skeleton isLoaded={authorDetails}>
+              {authorDetails && (
+                <Customuser
+                  username={authorDetails.username}
+                  email={authorDetails.email}
+                  bio={authorDetails.bio}
+                  blogs={authorDetails.blogs}
+                  imageUrl={authorDetails.image}
+                />
+              )}
+            </Skeleton>
+          </ModalContent>
+        </Modal>
 
-      <CardBody>
-        <Link to={`/${id}/${title}`}>
-          <Image
-            src={imgUrl}
-            alt="Green double couch with wooden legs"
-            borderRadius="lg"
-            fallbackSrc={fallback}
-            width={"100%"}
-            height={"200px"}
-            objectFit={"cover"}
-          />
-          <Stack mt="6" spacing="3">
-            <Heading size="md">{title}</Heading>
-            <Text height={"100px"} className="text">
-              {summary}
-            </Text>
-          </Stack>
-        </Link>
-        <Text
-          mt="4"
-          fontSize="sm"
-          color="gray.500"
-          onClick={onOpen}
-          cursor={"pointer"}
-          _hover={{
-            color: "blue.500",
-          }}
-        >
-          by :- {author} on {newDate}
-        </Text>
-      </CardBody>
-      <Divider />
-      <CardFooter>
-        <Flex justifyContent={"space-between"} width={"100%"}>
-          {canEdit ? (
-            <>
-              <Link to={`/edit/${id}`}>
+        <CardBody>
+          <Link to={`/${id}/${title}`}>
+            <Image
+              src={imgUrl}
+              alt="Green double couch with wooden legs"
+              borderRadius="lg"
+              fallbackSrc={fallback}
+              width={"100%"}
+              height={"200px"}
+              objectFit={"cover"}
+            />
+            <Stack mt="6" spacing="3">
+              <Heading size="md">{title}</Heading>
+              <Text height={"100px"} className="text">
+                {summary}
+              </Text>
+            </Stack>
+          </Link>
+          <Text
+            mt="4"
+            fontSize="sm"
+            color="gray.500"
+            onClick={onOpen}
+            cursor={"pointer"}
+            _hover={{
+              color: "blue.500",
+            }}
+          >
+            by :- {author} on {newDate}
+          </Text>
+        </CardBody>
+        <Divider />
+        <CardFooter>
+          <Flex justifyContent={"space-between"} width={"100%"}>
+            {canEdit ? (
+              <>
+                <Link to={`/edit/${id}`}>
+                  <Button variant="solid" colorScheme="blue">
+                    Edit Blog
+                  </Button>
+                </Link>
+                <Button
+                  colorScheme="red"
+                  onClick={() => handleDelete()}
+                  isLoading={loading}
+                >
+                  delete
+                </Button>
+              </>
+            ) : (
+              <Link to={`/${id}/${title}`}>
                 <Button variant="solid" colorScheme="blue">
-                  Edit Blog
+                  Read more
                 </Button>
               </Link>
-              <Button
-                colorScheme="red"
-                onClick={() => handleDelete()}
-                isLoading={loading}
-              >
-                delete
-              </Button>
-            </>
-          ) : (
-            <Link to={`/${id}/${title}`}>
-              <Button variant="solid" colorScheme="blue">
-                Read more
-              </Button>
-            </Link>
-          )}
-        </Flex>
-      </CardFooter>
-    </Card>
+            )}
+          </Flex>
+        </CardFooter>
+      </Card>
+    </Skeleton>
   );
 }

@@ -28,7 +28,8 @@ export default function Signuppage() {
       email.length > 0 &&
       password.length > 0 &&
       confirmPassword.length > 0 &&
-      password === confirmPassword
+      password === confirmPassword &&
+      validateEmail(email)
     ) {
       setAllCorrect(true);
     } else {
@@ -38,6 +39,11 @@ export default function Signuppage() {
   useEffect(() => {
     checkAllCorrect();
   }, [penName, email, password, confirmPassword]);
+
+  function validateEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
 
   const handleOnSubmit = async (e) => {
     const newBio = bio === "" ? "Oops i forgot to write my bio" : bio;

@@ -36,10 +36,20 @@ export default function Customuser({
               {email}
             </Heading>
             <Divider />
-            <Flex mt="6" direction={"column"} height={"100%"} gap={"100px"}>
+            <Flex
+              mt="6"
+              direction={"column"}
+              height={"100%"}
+              gap={"100px"}
+              width={"100%"}
+            >
               <Text overflowWrap={"break-word"}>{bio}</Text>
 
-              {edit && <Button onClick={modalOpen}>Edit</Button>}
+              {edit && (
+                <Button onClick={modalOpen} width={"100%"}>
+                  Edit
+                </Button>
+              )}
             </Flex>
           </Flex>
         </CardBody>
