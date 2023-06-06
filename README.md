@@ -11,7 +11,6 @@ It is made using `react+javascript+chakra_UI` from VITE as frontend and `node+ex
 1. [Getting Started](#getting-started)
    - [Prerequisites](#prerequisites)
    - [Installation](#installation)
-   - [Running the Application](#running-the-application)
 2. [Features](#features)
    - [User Profile with Avatars](#user-profile-with-avatars)
    - [Markdown Editor for Blog Writing](#markdown-editor-for-blog-writing)
@@ -108,4 +107,66 @@ npm run dev
 
 ```
 
-12. Client should be now running on your port.
+12. Client should be now running on your port open the browser and go to `http://localhost:<PORT>` to view the site.
+
+## Features
+
+### CRUD Operations
+
+- Scribbler is a fully functional CRUD (Create, Read, Update, Delete) application.
+- Users can create new blogs, view their own blogs, edit existing blogs, and delete unwanted blogs.
+
+### User Profile with Avatars
+
+- Users can create and customize their profiles with avatars.
+- Avatars provide a visual representation of the user across the site.
+- Users can update their profile information, including name, bio, and avatar image.
+
+### Markdown Editor for Blog Writing
+
+- Scribbler offers a markdown editor that allows users to write blogs using the Markdown language.
+- The markdown editor provides a simplified and intuitive interface for creating richly formatted blog content.
+
+### Thumbnail Images for Blogs
+
+- Users can upload and attach thumbnail images to their blogs.
+- Thumbnail images provide visual representation and attract readers to the blog.
+
+### Viewing Other User Profiles
+
+- Users can explore and view profiles of other users.
+- This feature allows users to discover and connect with fellow bloggers on the platform.
+
+### Dark Mode
+
+- Scribbler offers a dark mode option for users who prefer a darker color scheme.
+- The dark mode enhances readability and reduces eye strain in low-light environments.
+
+### Responsive Design
+
+- Scribbler is designed to be fully responsive, ensuring a seamless experience across various devices and screen sizes.
+- Users can access and interact with the blog site from their desktops, tablets, and mobile devices.
+
+### Infinite Scrolling
+
+- Scribbler implements infinite scrolling, allowing users to scroll through an endless stream of blogs.
+- As users reach the end of the current blog list, more blogs are dynamically loaded, providing a smooth browsing experience.
+
+### Skeletons Everywhere
+
+- Skeleton screens are used throughout Scribbler to enhance the user experience while content is being loaded.
+- Skeleton screens provide visual placeholders that mimic the structure of the content, giving users a sense of progress and responsiveness.
+
+### Custom Alerts
+
+- Scribbler incorporates custom alerts to provide informative feedback and notifications to users.
+- Alerts are used to confirm successful actions, notify errors, and guide users through different interactions within the site.
+
+### Beginner-Friendly UI
+
+- The user interface of Scribbler is designed with beginners in mind, ensuring a user-friendly experience for users who are new to blogging.
+- The UI elements are intuitive and easy to navigate, enabling users to focus on their writing and interaction with the platform.
+
+## Conclusion
+
+Feel free to contribute to this project and make it better. If you have any doubts or want to contact me, you can reach me at [my email](mailto:aytida.dev@gmail.com).
