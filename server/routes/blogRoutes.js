@@ -28,12 +28,19 @@ blogRouter.get("/", (req, res) => {
   });
 });
 
-blogRouter.get("/allBlogs", async (req, res) => {
+blogRouter.get("/allBlogs/:page", async (req, res) => {
   try {
+    const page = parseInt(req.params.page);
     const blogs = await blogModel.find({});
+    const totalBlogs = blogs.length;
+    const blogsPerPage = 6;
+    const startIndex = totalBlogs - (blogsPerPage * page) > 0 ? totalBlogs - (blogsPerPage * page) : 0;
+    const endIndex = totalBlogs
+    const blogsToSend = blogs.slice(startIndex, endIndex);
     res.send({
       message: "blogs fetched",
-      blogs: blogs,
+      blogs: blogsToSend,
+      totalBlogs: totalBlogs,
     });
   } catch (err) {
     res.send({
@@ -56,12 +63,20 @@ blogRouter.get("/getBlog/:id", async (req, res) => {
   }
 });
 
-blogRouter.get("/getBlogsByUser", auth, async (req, res) => {
+blogRouter.get("/getBlogsByUser/:page", auth, async (req, res) => {
   try {
+    const page = parseInt(req.params.page);
+    
     const blogs = await blogModel.find({ createdBy: req.user.email });
+    const totalBlogs = blogs.length;
+    const blogsPerPage = 6;
+    const startIndex = totalBlogs - (blogsPerPage * page) > 0 ? totalBlogs - (blogsPerPage * page) : 0;
+    const endIndex = totalBlogs
+    const blogsToSend = blogs.slice(startIndex, endIndex);
     res.send({
       message: "blogs fetched",
-      blogs: blogs,
+      blogs: blogsToSend,
+      totalBlogs: totalBlogs,
     });
   } catch (err) {
     res.status(404).send({

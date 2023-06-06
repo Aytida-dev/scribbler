@@ -1,11 +1,11 @@
-import React from "react";
 import {
-  Box,
   Alert,
+  AlertDescription,
   AlertIcon,
   AlertTitle,
-  AlertDescription,
+  Box,
 } from "@chakra-ui/react";
+import React from "react";
 
 export default function CustomAlert({ status, title, discription }) {
   return (
