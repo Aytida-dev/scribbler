@@ -31,6 +31,7 @@ export default function Createblogpage() {
   const [content, setContent] = useState("");
   const [createdAt, setCreatedAt] = useState("");
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -62,6 +63,7 @@ export default function Createblogpage() {
   }, []);
 
   const handlePublish = async () => {
+    setLoading(true);
     const formData = new FormData();
     formData.append("title", title);
     formData.append("summary", summary);
@@ -88,6 +90,7 @@ export default function Createblogpage() {
     } else {
       setShowAlert({ status: "error" });
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -231,6 +234,7 @@ export default function Createblogpage() {
                     content === "" ||
                     (image && image.size > 5 * 1024 * 1024)
                   }
+                  isLoading={loading}
                 >
                   Publish
                 </Button>

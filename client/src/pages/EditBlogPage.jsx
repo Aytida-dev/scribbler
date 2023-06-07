@@ -36,6 +36,7 @@ export default function EditBlogPage() {
   const [createdAt, setCreatedAt] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [showAlert, setShowAlert] = useState({ status: "" });
 
@@ -93,6 +94,7 @@ export default function EditBlogPage() {
   };
 
   const handleUpdate = async () => {
+    setLoading(true);
     const formData = new FormData();
     formData.append("title", title);
     formData.append("summary", summary);
@@ -118,6 +120,7 @@ export default function EditBlogPage() {
     } else {
       setShowAlert({ status: "error" });
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -261,6 +264,7 @@ export default function EditBlogPage() {
                     content === "" ||
                     (image && image.size > 5 * 1024 * 1024)
                   }
+                  isLoading={loading}
                 >
                   Update
                 </Button>
