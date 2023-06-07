@@ -54,7 +54,7 @@ export default function EditBlogPage() {
       setSummary(data.blog.summary);
       setContent(data.blog.content);
 
-      if (!image) {
+      if (!data.blog.image) {
         return;
       }
 
