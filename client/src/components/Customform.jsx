@@ -23,7 +23,7 @@ export default function Customform({
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
   const [Bio, setBio] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const [showAlert, setShowAlert] = useState({ status: "" });
 
   useEffect(() => {
@@ -35,6 +35,7 @@ export default function Customform({
   }, [penName, email, password, bio]);
 
   const updateHandler = async () => {
+    setLoading(true);
     const formData = new FormData();
     formData.append("username", PenName);
     formData.append("email", email);
@@ -52,7 +53,7 @@ export default function Customform({
       }
     );
     const data = await response.json();
-    console.log(data);
+    setLoading(false);
     if (data.message === "user updated") {
       setShowAlert({ status: "success" });
     } else {
@@ -139,6 +140,7 @@ export default function Customform({
             isDisabled={
               Password !== ConfirmPassword || Password === "" || PenName === ""
             }
+            isLoading={loading}
           >
             Update
           </Button>

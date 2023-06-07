@@ -10,6 +10,7 @@ export default function Loginpage() {
   const [allCorrect, setAllCorrect] = useState(false);
 
   const [showAlert, setShowAlert] = useState({ status: "" });
+  const [loading, setLoading] = useState(false);
 
   const { login } = useContext(userContext);
 
@@ -25,6 +26,7 @@ export default function Loginpage() {
   }, [email, password]);
 
   const handleOnSubmit = async (e) => {
+    setLoading(true);
     const data = {
       email,
       password,
@@ -39,6 +41,7 @@ export default function Loginpage() {
     const result = await response.json();
     const token = result.token;
     localStorage.setItem("token", token);
+    setLoading(false);
     if (result.message === "login successful") {
       setShowAlert({ status: "success" });
     }
@@ -116,7 +119,11 @@ export default function Loginpage() {
         />
       </FormControl>
 
-      <Button onClick={() => handleOnSubmit()} isDisabled={!allCorrect}>
+      <Button
+        onClick={() => handleOnSubmit()}
+        isDisabled={!allCorrect}
+        isLoading={loading}
+      >
         Login
       </Button>
 

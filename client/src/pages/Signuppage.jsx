@@ -17,6 +17,7 @@ export default function Signuppage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [bio, setBio] = useState("");
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [allCorrect, setAllCorrect] = useState(false);
 
@@ -48,6 +49,7 @@ export default function Signuppage() {
   }
 
   const handleOnSubmit = async (e) => {
+    setLoading(true);
     const newBio = bio === "" ? "Oops i forgot to write my bio" : bio;
 
     const formData = new FormData();
@@ -68,7 +70,7 @@ export default function Signuppage() {
       }
     );
     const result = await response.json();
-    console.log(result);
+
     if (result.message === "user signed up") {
       setShowAlert({ status: "success" });
     }
@@ -78,6 +80,7 @@ export default function Signuppage() {
     if (result.status === 404) {
       setShowAlert({ status: "error" });
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -182,7 +185,11 @@ export default function Signuppage() {
           onChange={(e) => setBio(e.target.value)}
         />
       </FormControl>
-      <Button onClick={() => handleOnSubmit()} isDisabled={!allCorrect}>
+      <Button
+        onClick={() => handleOnSubmit()}
+        isDisabled={!allCorrect}
+        isLoading={loading}
+      >
         Register
       </Button>
     </Flex>
